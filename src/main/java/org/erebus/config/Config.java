@@ -19,29 +19,71 @@
 
 package org.erebus.config;
 
+import org.erebus.range.Range;
+
 public class Config {
 
     /**
-     * number of iterations to perform
+     * number of classes to create
      */
-    private final int iterations;
+    private final int numClasses;
+
+    /**
+     * min/max number of methods per class
+     */
+    private final Range methodRange;
+
+    /**
+     * min/max number of calls per class
+     */
+    private final Range callRange;
 
     /**
      * whether or not to write code that uses threads
      */
     private final boolean threadingEnabled;
 
+    /**
+     * whether or not to write code that sleeps in methods
+     */
+    private final boolean sleepingEnabled;
+
+    /**
+     * min/max sleep time in milliseconds
+     */
+    private final Range sleepRange;
+
     protected Config() {
-        iterations = 10;
+        numClasses = 100;
+        methodRange = new Range(1, 5);
+        callRange = new Range(1, 3);
         threadingEnabled = true;
+
+        sleepingEnabled = true;
+        sleepRange = new Range(100, 500);
     }
 
-    public int getIterations() {
-        return this.iterations;
+    public int getNumClasses() {
+        return this.numClasses;
+    }
+
+    public Range getMethodRange() {
+        return this.methodRange;
+    }
+
+    public Range getCallRange() {
+        return this.callRange;
     }
 
     public boolean getThreadingEnabled() {
         return this.threadingEnabled;
     }
 
+    public boolean isSleepingEnabled() {
+        return this.sleepingEnabled;
+    }
+
+    public Range getSleepRange() {
+        return this.sleepRange;
+    }
 }

@@ -17,41 +17,14 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package org.erebus.creator;
+package org.erebus.range;
 
-import java.io.File;
+public class Range {
+    public final long min;
+    public final long max;
 
-import org.erebus.config.Config;
-import org.erebus.config.ConfigFactory;
-
-public class Creator {
-    private final Config config;
-
-    private final Runnable classCreator;
-
-    public Creator(File configFile) {
-        config = ConfigFactory.createConfig(configFile);
-
-        if (config.getThreadingEnabled()) {
-            classCreator = () -> createThreadedClass();
-        } else {
-            classCreator = () -> createClass();
-        }
-    }
-
-    public void create() {
-        createMainClass();
-    }
-
-    private void createMainClass() {
-        
-    }
-
-    private void createThreadedClass() {
-
-    }
-
-    private void createClass() {
-
+    public Range(long min, long max) {
+        this.min = min;
+        this.max = max;
     }
 }
