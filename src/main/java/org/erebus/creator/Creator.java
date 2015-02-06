@@ -44,7 +44,7 @@ public class Creator {
     }
 
     private void createMainClass() {
-        
+
     }
 
     private void createThreadedClass() {

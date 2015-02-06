@@ -19,12 +19,22 @@
 
 package org.erebus.range;
 
-public class Range {
-    public final long min;
-    public final long max;
+import java.util.Random;
 
-    public Range(long min, long max) {
+public class Range {
+    public final int min;
+    public final int max;
+
+    public Range(int min, int max) {
         this.min = min;
         this.max = max;
+    }
+
+    /**
+     * @return a number within {@link #min} and {@link #max} inclusive
+     */
+    public long getNumber() {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
     }
 }
