@@ -1,0 +1,3 @@
+@methodSignature @methodName(@arguments) {
+    @methodCalls
+}

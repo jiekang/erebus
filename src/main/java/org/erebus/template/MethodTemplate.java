@@ -2,11 +2,11 @@ package org.erebus.template;
 
 import java.util.List;
 
-public class Method {
+public class MethodTemplate {
     private String methodName;
     private List<String> argumentList;
 
-    private List<Method> callList;
+    private List<MethodTemplate> callList;
 
     private String createMethodString() {
         return "";

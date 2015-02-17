@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Class {
+public class ClassTemplate {
     private final String packageName;
     private final String className;
 
@@ -13,14 +13,14 @@ public class Class {
 
     private final Set<Method> methodList;
 
-    public Class(String packageName, String className) {
+    public ClassTemplate(String packageName, String className) {
         this(packageName, className,
                 new HashSet<>(),
                 new HashSet<>(),
                 new HashSet<>());
     }
 
-    public Class(String packageName, String className, Set<String> importList, Set<String> fieldList, Set<Method> methodList) {
+    public ClassTemplate(String packageName, String className, Set<String> importList, Set<String> fieldList, Set<Method> methodList) {
         this.packageName = packageName;
         this.className = className;
         this.importList = importList;
