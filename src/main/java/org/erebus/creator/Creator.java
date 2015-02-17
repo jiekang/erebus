@@ -23,6 +23,8 @@ import java.io.File;
 
 import org.erebus.config.Config;
 import org.erebus.config.ConfigFactory;
+import org.erebus.template.ClassTemplate;
+import org.erebus.template.MethodTemplate;
 
 public class Creator {
     private final Config config;
@@ -44,7 +46,11 @@ public class Creator {
     }
 
     private void createMainClass() {
+        ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
 
+        MethodTemplate mainMethod = new MethodTemplate("main", true);
+
+        mainClass.addMethod(mainMethod);
     }
 
     private void createThreadedClass() {

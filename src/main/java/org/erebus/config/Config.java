@@ -34,7 +34,7 @@ public class Config {
     private final Range methodRange;
 
     /**
-     * min/max number of calls per class
+     * min/max number of calls per method
      */
     private final Range callRange;
 
@@ -53,6 +53,11 @@ public class Config {
      */
     private final Range sleepRange;
 
+    /**
+     * base package
+     */
+    private final String basePackage;
+
     protected Config() {
         numClasses = 100;
         methodRange = new Range(1, 5);
@@ -61,6 +66,8 @@ public class Config {
 
         sleepingEnabled = true;
         sleepRange = new Range(100, 500);
+
+        basePackage = "org.erebus.generated";
     }
 
     public int getNumClasses() {
@@ -85,5 +92,9 @@ public class Config {
 
     public Range getSleepRange() {
         return this.sleepRange;
+    }
+
+    public String getBasePackage() {
+        return this.basePackage;
     }
 }
