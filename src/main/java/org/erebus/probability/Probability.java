@@ -9,11 +9,13 @@ public class Probability {
 
     private final int chance;
 
-    public Probability(int chance) throws InvalidProbabilityException {
-        if (0 <= chance && chance <= 100) {
-            this.chance = chance;
+    public Probability(final int chance) {
+        if (chance > 100) {
+            this.chance = 100;
+        } else if (chance < 0) {
+            this.chance = 0;
         } else {
-            throw new InvalidProbabilityException();
+            this.chance = chance;
         }
     }
 

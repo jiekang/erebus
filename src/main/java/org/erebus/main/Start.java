@@ -30,16 +30,16 @@ public class Start {
 
     public static void main(String[] args) {
         String configLocation = DEFAULT_CONFIG_LOCATION;
-        if (args.length > 1) {
-            configLocation = args[1];
+        if (args.length > 0) {
+            configLocation = args[0];
         }
 
-        File configFile = new File(configLocation);
+        final File configFile = new File(configLocation);
 
-        if (configFile.exists() && configFile.canRead()) {
+//        if (configFile.exists() && configFile.canRead()) {
             System.out.println("Creating java files using config: " + configLocation);
             Creator c = new Creator(configFile);
             c.create();
-        }
+//        }
     }
 }

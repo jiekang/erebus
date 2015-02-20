@@ -19,6 +19,9 @@
 
 package org.erebus.config;
 
+import java.io.File;
+
+import org.erebus.probability.Probability;
 import org.erebus.range.Range;
 
 public class Config {
@@ -34,40 +37,27 @@ public class Config {
     private final Range methodRange;
 
     /**
-     * min/max number of calls per method
-     */
-    private final Range callRange;
-
-    /**
-     * whether or not to write code that uses threads
-     */
-    private final boolean threadingEnabled;
-
-    /**
-     * whether or not to write code that sleeps in methods
-     */
-    private final boolean sleepingEnabled;
-
-    /**
-     * min/max sleep time in milliseconds
-     */
-    private final Range sleepRange;
-
-    /**
      * base package
      */
     private final String basePackage;
 
+    /**
+     * Output directory of classes
+     */
+    private final File outputDir;
+
+    private final MethodConfig methodConfig;
+
     protected Config() {
         numClasses = 100;
         methodRange = new Range(1, 5);
-        callRange = new Range(1, 3);
-        threadingEnabled = true;
-
-        sleepingEnabled = true;
-        sleepRange = new Range(100, 500);
 
         basePackage = "org.erebus.generated";
+
+        outputDir = new File("output");
+        outputDir.mkdirs();
+
+        methodConfig = new MethodConfig();
     }
 
     public int getNumClasses() {
@@ -78,23 +68,15 @@ public class Config {
         return this.methodRange;
     }
 
-    public Range getCallRange() {
-        return this.callRange;
-    }
-
-    public boolean getThreadingEnabled() {
-        return this.threadingEnabled;
-    }
-
-    public boolean isSleepingEnabled() {
-        return this.sleepingEnabled;
-    }
-
-    public Range getSleepRange() {
-        return this.sleepRange;
-    }
-
     public String getBasePackage() {
         return this.basePackage;
+    }
+
+    public File getOutputDir() {
+        return this.outputDir;
+    }
+
+    public MethodConfig getMethodConfig() {
+        return this.methodConfig;
     }
 }

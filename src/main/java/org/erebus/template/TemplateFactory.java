@@ -1,6 +1,7 @@
 package org.erebus.template;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystem;
@@ -43,7 +44,7 @@ public class TemplateFactory {
 
         URL entryURL = TemplateFactory.class.getResource("/org/erebus/template/" + fileName);
         try {
-            FileSystem entryFS = FileSystems.newFileSystem(entryURL.toURI(), env);
+//            FileSystem entryFS = FileSystems.newFileSystem(entryURL.toURI(), env);
             Path entryPath = Paths.get(entryURL.toURI());
             return new String(Files.readAllBytes(entryPath));
 

@@ -20,6 +20,9 @@
 package org.erebus.creator;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.erebus.config.Config;
 import org.erebus.config.ConfigFactory;
@@ -29,32 +32,42 @@ import org.erebus.template.MethodTemplate;
 public class Creator {
     private final Config config;
 
-    private final Runnable classCreator;
+    private final List<ClassTemplate> classList = new ArrayList<>();
 
-    public Creator(File configFile) {
+    private int numClasses = 0;
+
+    public Creator(final File configFile) {
         config = ConfigFactory.createConfig(configFile);
 
-        if (config.getThreadingEnabled()) {
-            classCreator = () -> createThreadedClass();
-        } else {
-            classCreator = () -> createClass();
-        }
     }
 
     public void create() {
         createMainClass();
+
+        for (ClassTemplate classTemplate : classList) {
+            try {
+                classTemplate.createClassFile(config.getOutputDir());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void createMainClass() {
+        numClasses++;
+
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
 
-        MethodTemplate mainMethod = new MethodTemplate("main", true);
+        MethodTemplate mainMethod = new MethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
+        mainMethod.addArgument("String[] args");
 
         mainClass.addMethod(mainMethod);
+
+        classList.add(mainClass);
     }
 
-    private void createThreadedClass() {
-
+    private int getNumMethods() {
+        return config.getMethodRange().getNumber();
     }
 
     private void createClass() {

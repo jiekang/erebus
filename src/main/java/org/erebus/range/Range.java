@@ -22,10 +22,10 @@ package org.erebus.range;
 import java.util.Random;
 
 public class Range {
-    public final int min;
-    public final int max;
+    private final int min;
+    private final int max;
 
-    public Range(int min, int max) {
+    public Range(final int min, final int max) {
         this.min = min;
         this.max = max;
     }
@@ -33,7 +33,7 @@ public class Range {
     /**
      * @return a number within {@link #min} and {@link #max} inclusive
      */
-    public long getNumber() {
+    public int getNumber() {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
     }
