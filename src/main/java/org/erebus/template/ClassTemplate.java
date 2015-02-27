@@ -13,7 +13,7 @@ public class ClassTemplate {
     private final Set<String> importList;
     private final Set<String> fieldList;
 
-    private final Set<MethodTemplate> methodList;
+    private final Set<DefaultMethodTemplate> methodList;
 
     public ClassTemplate(String packageName, String className) {
         this(packageName, className,
@@ -22,7 +22,7 @@ public class ClassTemplate {
                 new HashSet<>());
     }
 
-    public ClassTemplate(String packageName, String className, Set<String> importList, Set<String> fieldList, Set<MethodTemplate> methodList) {
+    public ClassTemplate(String packageName, String className, Set<String> importList, Set<String> fieldList, Set<DefaultMethodTemplate> methodList) {
         this.packageName = packageName;
         this.className = className;
         this.importList = importList;
@@ -38,8 +38,12 @@ public class ClassTemplate {
         this.fieldList.add(field);
     }
 
-    public void addMethod(MethodTemplate method) {
+    public void addMethod(DefaultMethodTemplate method) {
         this.methodList.add(method);
+    }
+
+    public Set<DefaultMethodTemplate> getMethods() {
+        return this.methodList;
     }
 
     public void createClassFile(File outputDir) throws IOException {
@@ -101,7 +105,7 @@ public class ClassTemplate {
 
     private String createMethods() {
         String methodString = "";
-        for (MethodTemplate method : methodList) {
+        for (DefaultMethodTemplate method : methodList) {
             methodString = methodString + method.createMethodString() + System.lineSeparator();
         }
 

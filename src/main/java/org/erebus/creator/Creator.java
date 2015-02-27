@@ -26,8 +26,9 @@ import java.util.List;
 
 import org.erebus.config.Config;
 import org.erebus.config.ConfigFactory;
+import org.erebus.range.Range;
 import org.erebus.template.ClassTemplate;
-import org.erebus.template.MethodTemplate;
+import org.erebus.template.DefaultMethodTemplate;
 
 public class Creator {
     private final Config config;
@@ -58,19 +59,67 @@ public class Creator {
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
 
-        MethodTemplate mainMethod = new MethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
+        DefaultMethodTemplate mainMethod = new DefaultMethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
         mainMethod.addArgument("String[] args");
-
         mainClass.addMethod(mainMethod);
 
+        int numCalls = getNumCalls();
+        for (int i = 0; i < numCalls; i++) {
+            if (numClasses < config.getNumClasses()) {
+                ClassTemplate c = createClass();
+                for (DefaultMethodTemplate m : c.getMethods()) {
+                    mainMethod.addCall(m);
+                }
+            } else {
+                ClassTemplate c = getClassTemplate();
+                for (DefaultMethodTemplate m : c.getMethods()) {
+                    mainMethod.addCall(m);
+                }
+            }
+        }
+
         classList.add(mainClass);
+    }
+
+    private ClassTemplate createClass() {
+        numClasses++;
+        ClassTemplate classTemplate = new ClassTemplate(config.getBasePackage() + ".random", "Random" + numClasses);
+        classList.add(classTemplate);
+
+        int numMethods = getNumMethods();
+        for (int i = 0; i < numMethods; i++) {
+            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i, true, config.getMethodConfig());
+            classTemplate.addMethod(method);
+
+            int numCalls = getNumCalls();
+            for (int j = 0; j < numCalls; j++) {
+                ClassTemplate c;
+                if (numClasses < config.getNumClasses()) {
+                    c = createClass();
+                } else {
+                    c = getClassTemplate();
+                }
+                for (DefaultMethodTemplate m : c.getMethods()) {
+                    method.addCall(m);
+                }
+            }
+        }
+
+        return classTemplate;
     }
 
     private int getNumMethods() {
         return config.getMethodRange().getNumber();
     }
 
-    private void createClass() {
-
+    private int getNumCalls() {
+        return config.getMethodConfig().getCallRange().getNumber();
     }
+    private ClassTemplate getClassTemplate() {
+        Range r = new Range(0, classList.size() - 1);
+        return classList.get(r.getNumber());
+    }
+
+
+
 }

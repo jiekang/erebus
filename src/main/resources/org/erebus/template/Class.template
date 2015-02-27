@@ -2,7 +2,7 @@ package @packageName
 
 @import
 public class @className {
-    @field
-    @method
+@field
+@method
 }
 

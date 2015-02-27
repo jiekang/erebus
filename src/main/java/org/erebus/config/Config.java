@@ -21,7 +21,6 @@ package org.erebus.config;
 
 import java.io.File;
 
-import org.erebus.probability.Probability;
 import org.erebus.range.Range;
 
 public class Config {
@@ -49,7 +48,7 @@ public class Config {
     private final MethodConfig methodConfig;
 
     protected Config() {
-        numClasses = 100;
+        numClasses = 4;
         methodRange = new Range(1, 5);
 
         basePackage = "org.erebus.generated";
