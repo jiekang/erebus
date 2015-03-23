@@ -67,18 +67,18 @@ public class MainMethodTemplate implements MethodTemplate {
 
     private String createMethodCalls() {
         String methodCalls =
-                "int callCount = 0;\n" +
-                "try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {\n" +
-                "while(br.readLine()==null){\n";
+                "int callCount = 0;" + System.lineSeparator() +
+                "try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {" + System.lineSeparator() +
+                "while(br.readLine()==null){" + System.lineSeparator();
 
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
         }
 
         methodCalls = methodCalls +
-                "}\n" +
-                "} catch(IOException e) {\n" +
-                "e.printStackTrace();\n" +
+                "}" + System.lineSeparator() +
+                "} catch(IOException e) {" + System.lineSeparator() +
+                "e.printStackTrace();" + System.lineSeparator() +
                 "}";
 
         return methodCalls;

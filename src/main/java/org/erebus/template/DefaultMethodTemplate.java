@@ -103,7 +103,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
 
     private String createMethodCalls() {
         String methodCalls =
-                "if (callCount > 10) { return; }\n";
+                "if (callCount > 10) { return; }" + System.lineSeparator();
 
 
         for (MethodTemplate method : callList) {
