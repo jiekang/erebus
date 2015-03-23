@@ -56,6 +56,9 @@ public class Creator {
 
         MainMethodTemplate mainMethod = new MainMethodTemplate(mainClass.getFullClassName());
         mainClass.addMethod(mainMethod);
+        mainClass.addImport("java.io.BufferedReader");
+        mainClass.addImport("java.io.IOException");
+        mainClass.addImport("java.io.InputStreamReader");
 
         int numCalls = getNumCalls();
         for (int i = 0; i < numCalls; i++) {

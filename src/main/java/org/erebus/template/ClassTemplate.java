@@ -88,7 +88,7 @@ public class ClassTemplate {
     private String createImports() {
         String importString = "";
         for (String importName : importList) {
-            importString = importString + importName + System.lineSeparator();
+            importString = importString + "import " + importName + ";" + System.lineSeparator();
         }
 
         return importString;
