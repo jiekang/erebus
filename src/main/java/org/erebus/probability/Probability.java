@@ -19,9 +19,6 @@ public class Probability {
         }
     }
 
-    private class InvalidProbabilityException extends Throwable {
-    }
-
     /**
      * @return true with probability {@link #chance} percent.
      */
