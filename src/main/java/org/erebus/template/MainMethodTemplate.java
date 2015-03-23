@@ -99,7 +99,6 @@ public class MainMethodTemplate implements MethodTemplate {
 
     private String createMethodCalls() {
         String methodCalls =
-                "System.out.println(\"main\");\n" +
                 "int callCount = 0;\n";
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
