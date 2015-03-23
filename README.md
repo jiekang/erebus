@@ -1,2 +1,2 @@
 # erebus
-Scalable Java Code Creator
+Configurable Java Code Creator
