@@ -48,7 +48,7 @@ public class Config {
     private final MethodConfig methodConfig;
 
     protected Config() {
-        numClasses = 4;
+        numClasses = 3;
         methodRange = new Range(1, 5);
 
         basePackage = "org.erebus.generated";
@@ -57,6 +57,14 @@ public class Config {
         outputDir.mkdirs();
 
         methodConfig = new MethodConfig();
+    }
+
+    public Config(int numClasses, Range methodRange, String basePackage, File outputDir, MethodConfig methodConfig) {
+        this.numClasses = numClasses;
+        this.methodRange = methodRange;
+        this.basePackage = basePackage;
+        this.outputDir = outputDir;
+        this.methodConfig = methodConfig;
     }
 
     public int getNumClasses() {

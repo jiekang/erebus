@@ -50,7 +50,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
         this.argumentList.add(arg);
     }
 
-    public void addCall(DefaultMethodTemplate call) {
+    public void addCall(MethodTemplate call) {
         this.callList.add(call);
     }
 
@@ -82,8 +82,13 @@ public class DefaultMethodTemplate implements MethodTemplate {
     }
 
     private String createArguments() {
-        String argumentString = "";
+        String argumentString = "int callCount";
+
+
         String[] argList = argumentList.toArray(new String[0]);
+        if (argList.length > 0) {
+            argumentString = argumentString + ", ";
+        }
         if (argList.length > 1) {
             for (int i = 0; i < argList.length - 1; i++) {
                 argumentString = argumentString + argList[i] + ", ";
@@ -97,7 +102,11 @@ public class DefaultMethodTemplate implements MethodTemplate {
     }
 
     private String createMethodCalls() {
-        String methodCalls = "";
+        String methodCalls =
+                "System.out.println(\"" + methodName + "\");\n" +
+                "if (callCount > 10) { return; }\n";
+
+
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
         }
@@ -109,10 +118,10 @@ public class DefaultMethodTemplate implements MethodTemplate {
     public String getMethodCallString() {
         String call = "";
         if (isStatic()) {
-            call = getFullClassName() + "." + getMethodName() + "();";
+            call = getFullClassName() + "." + getMethodName() + "(++callCount);";
         } else {
-            call = call + getFullClassName() + " gen" + getMethodName() + " = new " + getFullClassName() + "();" + System.lineSeparator();
-            call = call + "gen" + getMethodName() + "." + getMethodName() + "();" + System.lineSeparator();
+            call = call + getFullClassName() + " gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + " = new " + getFullClassName() + "();" + System.lineSeparator();
+            call = call + "gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + "." + getMethodName() + "(++callCount);" + System.lineSeparator();
         }
         return call;
     }

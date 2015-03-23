@@ -5,7 +5,7 @@ import java.util.Random;
 public class Probability {
 
     private final int max = 100;
-    private final int min = 100;
+    private final int min = 0;
 
     private final int chance;
 

@@ -26,9 +26,12 @@ import java.util.List;
 
 import org.erebus.config.Config;
 import org.erebus.config.ConfigFactory;
+import org.erebus.probability.Probability;
 import org.erebus.range.Range;
 import org.erebus.template.ClassTemplate;
 import org.erebus.template.DefaultMethodTemplate;
+import org.erebus.template.MainMethodTemplate;
+import org.erebus.template.MethodTemplate;
 
 public class Creator {
     private final Config config;
@@ -39,19 +42,11 @@ public class Creator {
 
     public Creator(final File configFile) {
         config = ConfigFactory.createConfig(configFile);
-
     }
 
     public void create() {
         createMainClass();
-
-        for (ClassTemplate classTemplate : classList) {
-            try {
-                classTemplate.createClassFile(config.getOutputDir());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        outputClassFiles();
     }
 
     private void createMainClass() {
@@ -59,7 +54,7 @@ public class Creator {
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
 
-        DefaultMethodTemplate mainMethod = new DefaultMethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
+        MainMethodTemplate mainMethod = new MainMethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
         mainMethod.addArgument("String[] args");
         mainClass.addMethod(mainMethod);
 
@@ -67,12 +62,12 @@ public class Creator {
         for (int i = 0; i < numCalls; i++) {
             if (numClasses < config.getNumClasses()) {
                 ClassTemplate c = createClass();
-                for (DefaultMethodTemplate m : c.getMethods()) {
+                for (MethodTemplate m : c.getMethods()) {
                     mainMethod.addCall(m);
                 }
             } else {
                 ClassTemplate c = getClassTemplate();
-                for (DefaultMethodTemplate m : c.getMethods()) {
+                for (MethodTemplate m : c.getMethods()) {
                     mainMethod.addCall(m);
                 }
             }
@@ -87,8 +82,10 @@ public class Creator {
         classList.add(classTemplate);
 
         int numMethods = getNumMethods();
+        Probability isStatic = new Probability(50);
+
         for (int i = 0; i < numMethods; i++) {
-            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i, true, config.getMethodConfig());
+            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i, isStatic.getChance(), config.getMethodConfig());
             classTemplate.addMethod(method);
 
             int numCalls = getNumCalls();
@@ -99,7 +96,7 @@ public class Creator {
                 } else {
                     c = getClassTemplate();
                 }
-                for (DefaultMethodTemplate m : c.getMethods()) {
+                for (MethodTemplate m : c.getMethods()) {
                     method.addCall(m);
                 }
             }
@@ -115,11 +112,20 @@ public class Creator {
     private int getNumCalls() {
         return config.getMethodConfig().getCallRange().getNumber();
     }
+
     private ClassTemplate getClassTemplate() {
         Range r = new Range(0, classList.size() - 1);
         return classList.get(r.getNumber());
     }
 
-
+    private void outputClassFiles() {
+        for (ClassTemplate classTemplate : classList) {
+            try {
+                classTemplate.createClassFile(config.getOutputDir());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
