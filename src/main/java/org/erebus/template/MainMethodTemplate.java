@@ -8,29 +8,18 @@ import org.erebus.config.MethodConfig;
 public class MainMethodTemplate implements MethodTemplate {
     private final String fullClassName;
 
-    private final String methodName;
+    private final String methodName = "main";
 
-    private final boolean isStaticMethod;
-
-    private final MethodConfig config;
-
-    private final Set<String> argumentList;
+    private final boolean isStaticMethod = true;
 
     private final Set<MethodTemplate> callList;
 
-    public MainMethodTemplate(String fullClassName, String methodName, boolean isStatic, MethodConfig config) {
-        this(fullClassName, methodName, isStatic, config,
-                new HashSet<>(),
-                new HashSet<>());
+    public MainMethodTemplate(String fullClassName) {
+        this(fullClassName, new HashSet<>());
     }
 
-    public MainMethodTemplate(String fullClassName, String methodName, boolean isStaticMethod, MethodConfig config,
-                                 Set<String> argumentList, Set<MethodTemplate> callList) {
+    public MainMethodTemplate(String fullClassName, Set<MethodTemplate> callList) {
         this.fullClassName = fullClassName;
-        this.methodName = methodName;
-        this.isStaticMethod = isStaticMethod;
-        this.config = config;
-        this.argumentList = argumentList;
         this.callList = callList;
     }
 
@@ -44,10 +33,6 @@ public class MainMethodTemplate implements MethodTemplate {
 
     public String getFullClassName() {
         return this.fullClassName;
-    }
-
-    public void addArgument(String arg) {
-        this.argumentList.add(arg);
     }
 
     public void addCall(MethodTemplate call) {
@@ -73,28 +58,11 @@ public class MainMethodTemplate implements MethodTemplate {
     }
 
     private String createMethodSignature() {
-        String staticString = " ";
-        if (this.isStaticMethod) {
-            staticString = " static ";
-        }
-
-        return "public" + staticString + "void";
+        return "public static void";
     }
 
     private String createArguments() {
-        String argumentString = "";
-
-        String[] argList = argumentList.toArray(new String[0]);
-        if (argList.length > 1) {
-            for (int i = 0; i < argList.length - 1; i++) {
-                argumentString = argumentString + argList[i] + ", ";
-            }
-            argumentString = argumentString + argList[argList.length];
-        } else if (argList.length == 1) {
-            argumentString = argumentString + argList[0];
-        }
-
-        return argumentString;
+        return "String[] args";
     }
 
     private String createMethodCalls() {

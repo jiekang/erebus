@@ -54,8 +54,7 @@ public class Creator {
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
 
-        MainMethodTemplate mainMethod = new MainMethodTemplate(mainClass.getFullClassName(), "main", true, config.getMethodConfig());
-        mainMethod.addArgument("String[] args");
+        MainMethodTemplate mainMethod = new MainMethodTemplate(mainClass.getFullClassName());
         mainClass.addMethod(mainMethod);
 
         int numCalls = getNumCalls();
