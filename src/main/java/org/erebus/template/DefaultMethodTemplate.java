@@ -130,17 +130,17 @@ public class DefaultMethodTemplate implements MethodTemplate {
     }
 
     public String getFileIOString() {
-        String fileIO = "try {\n" +
-                "            File f = new File(\"" + this.methodName + "\");\n" +
-                "            f.createNewFile();\n" +
-                "            f.deleteOnExit();\n" +
-                "            String s = \"\";\n" +
-                "            for (int i = 0; i < 10000; i++) {\n" +
-                "                s = s + \"input\";\n" +
-                "            }\n" +
-                "            Files.write(f.toPath(), s.getBytes());\n" +
-                "        } catch (IOException e) {\n" +
-                "        }";
+        String fileIO = "try {" + System.lineSeparator() +
+                "File f = new File(\"" + this.methodName + "\");" + System.lineSeparator() +
+                "f.createNewFile();" + System.lineSeparator() +
+                "f.deleteOnExit();" + System.lineSeparator() +
+                "String s = \"\";" + System.lineSeparator() +
+                "for (int i = 0; i < 10000; i++) {" + System.lineSeparator() +
+                "s = s + \"input\";" + System.lineSeparator() +
+                "}" + System.lineSeparator() +
+                "Files.write(f.toPath(), s.getBytes());" + System.lineSeparator() +
+                "} catch (IOException e) {" + System.lineSeparator() +
+                "}";
         return fileIO;
     }
 }

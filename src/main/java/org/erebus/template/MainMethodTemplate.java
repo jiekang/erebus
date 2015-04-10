@@ -69,29 +69,29 @@ public class MainMethodTemplate implements MethodTemplate {
 
 
         String methodCalls =
-                "    final AtomicBoolean atomicBoolean = new AtomicBoolean(true);\n" +
-                "    Thread t = new Thread(new Runnable() {\n" +
-                "        @Override\n" +
-                "        public void run() {\n" +
-                "            while (atomicBoolean.get()) {" +
-                "                int callCount = 0;\n";
+                "final AtomicBoolean atomicBoolean = new AtomicBoolean(true);" + System.lineSeparator() +
+                "Thread t = new Thread(new Runnable() {" + System.lineSeparator() +
+                "@Override" + System.lineSeparator() +
+                "public void run() {" + System.lineSeparator() +
+                "while (atomicBoolean.get()) {" +
+                "int callCount = 0;" + System.lineSeparator();
 
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
         }
 
         methodCalls = methodCalls +
-                "            }\n" +
-                "        }\n" +
-                "    });\n" +
-                "    t.start();\n" +
-                "    try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {\n" +
-                "        while (br.readLine() == null) {\n" +
-                "        }\n" +
-                "        atomicBoolean.set(false);\n" +
-                "    } catch (IOException e) {\n" +
-                "        e.printStackTrace();\n" +
-                "    }";
+                "}" + System.lineSeparator() +
+                "}" + System.lineSeparator() +
+                "});" + System.lineSeparator() +
+                "t.start();" + System.lineSeparator() +
+                "try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {" + System.lineSeparator() +
+                "while (br.readLine() == null) {" + System.lineSeparator() +
+                "}" + System.lineSeparator() +
+                "atomicBoolean.set(false);" + System.lineSeparator() +
+                "} catch (IOException e) {" + System.lineSeparator() +
+                "e.printStackTrace();" + System.lineSeparator() +
+                "}";
 
         return methodCalls;
     }
