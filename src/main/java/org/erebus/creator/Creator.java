@@ -81,6 +81,10 @@ public class Creator {
     private ClassTemplate createClass() {
         numClasses++;
         ClassTemplate classTemplate = new ClassTemplate(config.getBasePackage() + ".random", "Random" + numClasses);
+        classTemplate.addImport("java.io.File");
+        classTemplate.addImport("java.io.IOException");
+        classTemplate.addImport("java.nio.file.Files");
+
         classList.add(classTemplate);
 
         int numMethods = getNumMethods();

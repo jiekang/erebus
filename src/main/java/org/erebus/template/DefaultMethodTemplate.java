@@ -1,5 +1,8 @@
 package org.erebus.template;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -105,6 +108,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
         String methodCalls =
                 "if (callCount > 10) { return; }" + System.lineSeparator();
 
+        methodCalls = methodCalls + getFileIOString() + System.lineSeparator();
 
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
@@ -125,4 +129,17 @@ public class DefaultMethodTemplate implements MethodTemplate {
         return call;
     }
 
+    public String getFileIOString() {
+        String fileIO = "try {\n" +
+                "            File f = new File(\"" + this.methodName + "\");\n" +
+                "            f.deleteOnExit();\n" +
+                "            String s = \"\";\n" +
+                "            for (int i = 0; i < 10000; i++) {\n" +
+                "                s = s + \"input\";\n" +
+                "            }\n" +
+                "            Files.write(f.toPath(), s.getBytes());\n" +
+                "        } catch (IOException e) {\n" +
+                "        }";
+        return fileIO;
+    }
 }
