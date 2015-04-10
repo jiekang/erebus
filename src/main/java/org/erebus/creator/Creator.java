@@ -59,6 +59,7 @@ public class Creator {
         mainClass.addImport("java.io.BufferedReader");
         mainClass.addImport("java.io.IOException");
         mainClass.addImport("java.io.InputStreamReader");
+        mainClass.addImport("java.util.concurrent.atomic.AtomicBoolean");
 
         int numCalls = getNumCalls();
         for (int i = 0; i < numCalls; i++) {
@@ -84,6 +85,8 @@ public class Creator {
         classTemplate.addImport("java.io.File");
         classTemplate.addImport("java.io.IOException");
         classTemplate.addImport("java.nio.file.Files");
+        classTemplate.addImport("java.util.concurrent.atomic.AtomicBoolean");
+
 
         classList.add(classTemplate);
 

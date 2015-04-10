@@ -85,7 +85,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
     }
 
     private String createArguments() {
-        String argumentString = "int callCount";
+        String argumentString = "int callCount, AtomicBoolean atomicBoolean";
 
 
         String[] argList = argumentList.toArray(new String[0]);
@@ -106,7 +106,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
 
     private String createMethodCalls() {
         String methodCalls =
-                "if (callCount > 10) { return; }" + System.lineSeparator();
+                "if (callCount > 10 || !atomicBoolean.get()) { return; }" + System.lineSeparator();
 
         methodCalls = methodCalls + getFileIOString() + System.lineSeparator();
 
@@ -121,10 +121,10 @@ public class DefaultMethodTemplate implements MethodTemplate {
     public String getMethodCallString() {
         String call = "";
         if (isStatic()) {
-            call = getFullClassName() + "." + getMethodName() + "(++callCount);";
+            call = getFullClassName() + "." + getMethodName() + "(++callCount, atomicBoolean);";
         } else {
             call = call + getFullClassName() + " gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + " = new " + getFullClassName() + "();" + System.lineSeparator();
-            call = call + "gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + "." + getMethodName() + "(++callCount);" + System.lineSeparator();
+            call = call + "gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + "." + getMethodName() + "(++callCount, atomicBoolean);" + System.lineSeparator();
         }
         return call;
     }
@@ -132,6 +132,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
     public String getFileIOString() {
         String fileIO = "try {\n" +
                 "            File f = new File(\"" + this.methodName + "\");\n" +
+                "            f.createNewFile();\n" +
                 "            f.deleteOnExit();\n" +
                 "            String s = \"\";\n" +
                 "            for (int i = 0; i < 10000; i++) {\n" +

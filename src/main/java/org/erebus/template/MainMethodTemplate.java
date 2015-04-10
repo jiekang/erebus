@@ -66,20 +66,32 @@ public class MainMethodTemplate implements MethodTemplate {
     }
 
     private String createMethodCalls() {
+
+
         String methodCalls =
-                "int callCount = 0;" + System.lineSeparator() +
-                "try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {" + System.lineSeparator() +
-                "while(br.readLine()==null){" + System.lineSeparator();
+                "    final AtomicBoolean atomicBoolean = new AtomicBoolean(true);\n" +
+                "    Thread t = new Thread(new Runnable() {\n" +
+                "        @Override\n" +
+                "        public void run() {\n" +
+                "            while (atomicBoolean.get()) {" +
+                "                int callCount = 0;\n";
 
         for (MethodTemplate method : callList) {
             methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
         }
 
         methodCalls = methodCalls +
-                "}" + System.lineSeparator() +
-                "} catch(IOException e) {" + System.lineSeparator() +
-                "e.printStackTrace();" + System.lineSeparator() +
-                "}";
+                "            }\n" +
+                "        }\n" +
+                "    });\n" +
+                "    t.start();\n" +
+                "    try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {\n" +
+                "        while (br.readLine() == null) {\n" +
+                "        }\n" +
+                "        atomicBoolean.set(false);\n" +
+                "    } catch (IOException e) {\n" +
+                "        e.printStackTrace();\n" +
+                "    }";
 
         return methodCalls;
     }
