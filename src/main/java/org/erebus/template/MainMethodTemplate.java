@@ -66,18 +66,16 @@ public class MainMethodTemplate implements MethodTemplate {
     }
 
     private String createMethodCalls() {
-
-
         String methodCalls =
                 "final AtomicBoolean atomicBoolean = new AtomicBoolean(true);" + System.lineSeparator() +
                 "Thread t = new Thread(new Runnable() {" + System.lineSeparator() +
                 "@Override" + System.lineSeparator() +
                 "public void run() {" + System.lineSeparator() +
-                "while (atomicBoolean.get()) {" +
+                "while (atomicBoolean.get()) {" + System.lineSeparator() +
                 "int callCount = 0;" + System.lineSeparator();
 
         for (MethodTemplate method : callList) {
-            methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
+            methodCalls = methodCalls + method.getMethodCallString("++callCount, atomicBoolean") + System.lineSeparator();
         }
 
         methodCalls = methodCalls +
@@ -97,7 +95,7 @@ public class MainMethodTemplate implements MethodTemplate {
     }
 
     @Override
-    public String getMethodCallString() {
+    public String getMethodCallString(String arguments) {
         String call = "";
         if (isStatic()) {
             call = getFullClassName() + "." + getMethodName() + "(0);";

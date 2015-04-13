@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.erebus.config.MethodConfig;
 
@@ -85,7 +86,7 @@ public class DefaultMethodTemplate implements MethodTemplate {
     }
 
     private String createArguments() {
-        String argumentString = "int callCount, AtomicBoolean atomicBoolean";
+        String argumentString = "int callCount, final AtomicBoolean atomicBoolean";
 
 
         String[] argList = argumentList.toArray(new String[0]);
@@ -106,25 +107,48 @@ public class DefaultMethodTemplate implements MethodTemplate {
 
     private String createMethodCalls() {
         String methodCalls =
-                "if (callCount > 10 || !atomicBoolean.get()) { return; }" + System.lineSeparator();
+                "if (callCount > 10 || !atomicBoolean.get()) { return; }" + System.lineSeparator() +
+                "int j = callCount  + 1;" + System.lineSeparator();
 
         methodCalls = methodCalls + getFileIOString() + System.lineSeparator();
 
         for (MethodTemplate method : callList) {
-            methodCalls = methodCalls + method.getMethodCallString() + System.lineSeparator();
+            if (config.getThreadingEnabled() && config.getThreadChance().getChance()) {
+                String threadName = getMethodName() + UUID.randomUUID().toString().replaceAll("-", "");
+                methodCalls = methodCalls +
+                        "Thread " + threadName + " = new Thread(new Runnable() {" + System.lineSeparator() +
+                        "        @Override" + System.lineSeparator() +
+                        "        public void run() {" + System.lineSeparator() +
+                        "            int i = callCount + 1;" + System.lineSeparator() +
+                        getMethodCallString("i, atomicBoolean") +
+                        "        }" + System.lineSeparator() +
+                        "    });" + System.lineSeparator() +
+                        threadName + ".start();" + System.lineSeparator();
+                if (!config.getThreadChance().getChance()) {
+                    methodCalls = methodCalls +
+                            "try {" + System.lineSeparator() +
+                            threadName + ".join();" + System.lineSeparator() +
+                            "} catch (InterruptedException e) {" + System.lineSeparator() +
+                            "e.printStackTrace();" + System.lineSeparator() +
+                            "}" + System.lineSeparator();
+                }
+            } else {
+                methodCalls = methodCalls +
+                        method.getMethodCallString("j, atomicBoolean") + System.lineSeparator();
+            }
         }
 
         return methodCalls;
     }
 
     @Override
-    public String getMethodCallString() {
+    public String getMethodCallString(String arguments) {
         String call = "";
         if (isStatic()) {
-            call = getFullClassName() + "." + getMethodName() + "(++callCount, atomicBoolean);";
+            call = getFullClassName() + "." + getMethodName() + "(" + arguments + ");";
         } else {
             call = call + getFullClassName() + " gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + " = new " + getFullClassName() + "();" + System.lineSeparator();
-            call = call + "gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + "." + getMethodName() + "(++callCount, atomicBoolean);" + System.lineSeparator();
+            call = call + "gen" + getFullClassName().replaceAll("\\.", "") + getMethodName() + "." + getMethodName() + "(" + arguments + ");" + System.lineSeparator();
         }
         return call;
     }

@@ -4,6 +4,6 @@ public interface MethodTemplate {
 
     public String createMethodString();
 
-    public String getMethodCallString();
+    public String getMethodCallString(String arguments);
 
 }

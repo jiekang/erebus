@@ -34,7 +34,7 @@ public class MethodConfig {
         callRange = new Range(1, 3);
 
         threadingEnabled = true;
-        threadChance = new Probability(50);
+        threadChance = new Probability(40);
 
         sleepingEnabled = true;
         sleepRange = new Range(100, 500);
@@ -46,6 +46,10 @@ public class MethodConfig {
 
     public boolean getThreadingEnabled() {
         return this.threadingEnabled;
+    }
+
+    public Probability getThreadChance() {
+        return this.threadChance;
     }
 
     public boolean isSleepingEnabled() {
