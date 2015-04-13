@@ -44,10 +44,20 @@ public class TemplateFactory {
 
         URL entryURL = TemplateFactory.class.getResource("/org/erebus/template/" + fileName);
         try {
-//            FileSystem entryFS = FileSystems.newFileSystem(entryURL.toURI(), env);
-            Path entryPath = Paths.get(entryURL.toURI());
-            return new String(Files.readAllBytes(entryPath));
+            String[] entry = entryURL.toURI().toString().split("!");
+            FileSystem entryFS;
+            try {
+                entryFS = FileSystems.newFileSystem(URI.create(entry[0]), env);
+            } catch (Exception e) {
+                entryFS = FileSystems.getFileSystem(URI.create(entry[0]));
+            }
+            Path entryPath = entryFS.getPath(entry[1]);
 
+            String template = new String(Files.readAllBytes(entryPath));
+
+            entryFS.close();
+
+            return template;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
