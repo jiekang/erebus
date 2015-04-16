@@ -21,6 +21,7 @@ package org.erebus.creator;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class Creator {
     public void create() {
         createMainClass();
         outputClassFiles();
+        outputBuildFiles();
     }
 
     private void createMainClass() {
@@ -135,6 +137,40 @@ public class Creator {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private void outputBuildFiles() {
+        File build = new File(config.getOutputDir(), "build.sh");
+        try {
+            build.createNewFile();
+
+            String buildString =
+                    "#!/bin/bash" + System.lineSeparator() +
+                    "find . -name *.java | xargs javac";
+
+            System.out.println("Writing file: " + build.getAbsolutePath());
+            Files.write(build.toPath(), buildString.getBytes());
+            build.setExecutable(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File run = new File(config.getOutputDir(), "run.sh");
+        try {
+            run.createNewFile();
+
+            String runString =
+                    "#!/bin/bash" + System.lineSeparator() +
+                    "java org.erebus.generated.main.Main";
+
+            System.out.println("Writing file: " + run.getAbsolutePath());
+            Files.write(run.toPath(), runString.getBytes());
+            run.setExecutable(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
