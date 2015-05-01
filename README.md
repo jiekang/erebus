@@ -11,7 +11,7 @@ Java 8
 In erebus directory:
 ```
 $ make install
-$ bin/erebus
+$ ./bin/erebus
 ```
 
 ## How to use generated code
