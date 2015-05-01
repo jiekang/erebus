@@ -1,6 +1,10 @@
 # erebus
 Configurable Java Code Creator
 
+## What it does
+
+erebus generates java code that can be run as a jvm process. This is intended for any kind of testing that needs random java applications to take up cpu cycles, memory, perform input/output, perform threading, or other non-specific process tasks.
+
 ## Requirements
 
 Maven
@@ -13,6 +17,8 @@ In erebus directory:
 $ make install
 $ ./bin/erebus
 ```
+
+This will generate java code located in the output directory along with scripts to easily compile and run the code
 
 ## How to use generated code
 
