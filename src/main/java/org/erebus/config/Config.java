@@ -48,8 +48,8 @@ public class Config {
     private final MethodConfig methodConfig;
 
     protected Config() {
-        numClasses = 10;
-        methodRange = new Range(1, 5);
+        numClasses = 3;
+        methodRange = new Range(1, 2);
 
         basePackage = "org.erebus.generated";
 

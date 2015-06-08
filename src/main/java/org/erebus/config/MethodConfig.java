@@ -16,6 +16,11 @@ public class MethodConfig {
     private final boolean threadingEnabled;
 
     /**
+     * whether or not to write code that performs file operations
+     */
+    private final boolean fileOperationsEnabled;
+
+    /**
      * probability of method creating a new thread
      */
     private final Probability threadChance;
@@ -36,6 +41,8 @@ public class MethodConfig {
         threadingEnabled = true;
         threadChance = new Probability(40);
 
+        fileOperationsEnabled = false;
+
         sleepingEnabled = true;
         sleepRange = new Range(100, 500);
     }
@@ -44,8 +51,12 @@ public class MethodConfig {
         return this.callRange;
     }
 
-    public boolean getThreadingEnabled() {
+    public boolean isThreadingEnabled() {
         return this.threadingEnabled;
+    }
+
+    public boolean isFileOperationsEnabled() {
+        return this.fileOperationsEnabled;
     }
 
     public Probability getThreadChance() {

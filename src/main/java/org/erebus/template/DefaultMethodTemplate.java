@@ -1,8 +1,5 @@
 package org.erebus.template;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -110,10 +107,11 @@ public class DefaultMethodTemplate implements MethodTemplate {
                 "if (callCount > 10 || !atomicBoolean.get()) { return; }" + System.lineSeparator() +
                 "int j = callCount  + 1;" + System.lineSeparator();
 
-        methodCalls = methodCalls + getFileIOString() + System.lineSeparator();
-
+        if (config.isFileOperationsEnabled()) {
+            methodCalls = methodCalls + getFileIOString() + System.lineSeparator();
+        }
         for (MethodTemplate method : callList) {
-            if (config.getThreadingEnabled() && config.getThreadChance().getChance()) {
+            if (config.isThreadingEnabled() && config.getThreadChance().getChance()) {
                 String threadName = getMethodName() + UUID.randomUUID().toString().replaceAll("-", "");
                 methodCalls = methodCalls +
                         "Thread " + threadName + " = new Thread(new Runnable() {" + System.lineSeparator() +
