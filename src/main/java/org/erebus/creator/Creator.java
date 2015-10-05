@@ -84,10 +84,13 @@ public class Creator {
     private ClassTemplate createClass() {
         numClasses++;
         ClassTemplate classTemplate = new ClassTemplate(config.getBasePackage() + ".random", "Random" + numClasses);
-        classTemplate.addImport("java.io.File");
-        classTemplate.addImport("java.io.IOException");
-        classTemplate.addImport("java.nio.file.Files");
+        if (config.getMethodConfig().isFileOperationsEnabled()) {
+            classTemplate.addImport("java.io.File");
+            classTemplate.addImport("java.io.IOException");
+            classTemplate.addImport("java.nio.file.Files");
+        }
         classTemplate.addImport("java.util.concurrent.atomic.AtomicBoolean");
+
 
 
         classList.add(classTemplate);
