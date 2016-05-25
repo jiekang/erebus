@@ -168,7 +168,7 @@ public class Creator {
 
             String runString =
                     "#!/bin/bash" + System.lineSeparator() +
-                    "java org.erebus.generated.main.Main";
+                    "java " + config.getBasePackage() + ".main.Main";
 
             System.out.println("Writing file: " + run.getAbsolutePath());
             Files.write(run.toPath(), runString.getBytes());
