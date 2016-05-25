@@ -19,10 +19,67 @@
 
 package org.erebus.config;
 
-import java.io.File;
+import org.erebus.range.Range;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigFactory {
-    public static Config createConfig(File configFile) {
+
+    public static Config createDefaultConfig() {
+        return new Config();
+    }
+
+    public static Config createConfig(Path configFile) {
+        Map<String, String> propertyMap = new HashMap<>();
+
+        try {
+            String file = new String(Files.readAllBytes(configFile));
+            for (String line : file.split(System.lineSeparator())) {
+                String[] property = line.split("=");
+                propertyMap.put(property[0], property[1]);
+            }
+
+            for (ConfigProperties.NumberProperties p : ConfigProperties.NumberProperties.values()) {
+                String property = propertyMap.get(p.toString());
+                if (property != null) {
+                    p.value = Integer.parseInt(property);
+                }
+            }
+
+            for (ConfigProperties.RangeProperties p : ConfigProperties.RangeProperties.values()) {
+                String property = propertyMap.get(p.toString());
+                if (property != null) {
+                    String[] range = property.split(",");
+                    p.value = new Range(Integer.parseInt(range[0]),
+                            Integer.parseInt(range[1]));
+                }
+            }
+
+            for (ConfigProperties.StringProperties p : ConfigProperties.StringProperties.values()) {
+                String property = propertyMap.get(p.toString());
+                if (property != null) {
+                    p.value = property;
+                }
+            }
+
+            for (ConfigProperties.BooleanProperties p : ConfigProperties.BooleanProperties.values()) {
+                String property = propertyMap.get(p.toString());
+                if (property != null) {
+                    if (0 == property.compareTo("true")) {
+                        p.value = true;
+                    } else if (0 == property.compareTo("false")) {
+                        p.value = false;
+                    }
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.out.println(System.lineSeparator() + "Using default config.");
+        }
+
         return new Config();
     }
 }

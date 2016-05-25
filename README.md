@@ -15,8 +15,10 @@ Java 8
 In erebus directory:
 ```
 $ make install
-$ ./bin/erebus
+$ ./bin/erebus <path to config file>
 ```
+
+A sample config file is included in the samples folder.
 
 This will generate java code located in the output directory along with scripts to easily compile and run the code
 

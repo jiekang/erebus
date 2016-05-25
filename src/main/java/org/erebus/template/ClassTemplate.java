@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ClassTemplate {
     private final String packageName;
@@ -14,6 +16,7 @@ public class ClassTemplate {
     private final Set<String> fieldList;
 
     private final Set<MethodTemplate> methodList;
+
 
     public ClassTemplate(String packageName, String className) {
         this(packageName, className,

@@ -36,15 +36,15 @@ public class MethodConfig {
     private final Range sleepRange;
 
     protected MethodConfig() {
-        callRange = new Range(1, 3);
+        callRange = ConfigProperties.RangeProperties.NUM_METHOD_CALL_RANGE.value;
 
-        threadingEnabled = true;
-        threadChance = new Probability(40);
+        threadingEnabled = ConfigProperties.BooleanProperties.ENABLE_THREADING.value;
+        threadChance = new Probability(ConfigProperties.NumberProperties.THREAD_CREATION_PROBABILITY.value);
 
-        fileOperationsEnabled = false;
+        fileOperationsEnabled = ConfigProperties.BooleanProperties.ENABLE_FILE_OPERATIONS.value;
 
-        sleepingEnabled = true;
-        sleepRange = new Range(100, 500);
+        sleepingEnabled = ConfigProperties.BooleanProperties.ENABLE_SLEEPING.value;
+        sleepRange = ConfigProperties.RangeProperties.SLEEP_RANGE.value;
     }
 
     public Range getCallRange() {

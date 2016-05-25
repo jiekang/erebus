@@ -41,8 +41,11 @@ public class Creator {
 
     private int numClasses = 0;
 
+    public Creator() {
+        config = ConfigFactory.createDefaultConfig();
+    }
     public Creator(final File configFile) {
-        config = ConfigFactory.createConfig(configFile);
+        config = ConfigFactory.createConfig(configFile.toPath());
     }
 
     public void create() {

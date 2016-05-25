@@ -23,6 +23,7 @@ import java.io.File;
 
 import org.erebus.range.Range;
 
+
 public class Config {
 
     /**
@@ -48,23 +49,15 @@ public class Config {
     private final MethodConfig methodConfig;
 
     protected Config() {
-        numClasses = 3;
-        methodRange = new Range(1, 2);
+        numClasses = ConfigProperties.NumberProperties.NUMBER_OF_CLASSES.value;
+        methodRange = ConfigProperties.RangeProperties.NUM_METHOD_RANGE.value;
 
-        basePackage = "org.erebus.generated";
+        basePackage = ConfigProperties.StringProperties.BASE_PACKAGE.value;
 
-        outputDir = new File("output");
+        outputDir = new File(ConfigProperties.StringProperties.OUTPUT_DIRECTORY.value);
         outputDir.mkdirs();
 
         methodConfig = new MethodConfig();
-    }
-
-    public Config(int numClasses, Range methodRange, String basePackage, File outputDir, MethodConfig methodConfig) {
-        this.numClasses = numClasses;
-        this.methodRange = methodRange;
-        this.basePackage = basePackage;
-        this.outputDir = outputDir;
-        this.methodConfig = methodConfig;
     }
 
     public int getNumClasses() {

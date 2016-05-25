@@ -35,11 +35,15 @@ public class Start {
         }
 
         final File configFile = new File(configLocation);
+        Creator c;
 
-//        if (configFile.exists() && configFile.canRead()) {
+        if (configFile.exists() && configFile.canRead()) {
             System.out.println("Creating java files using config: " + configLocation);
-            Creator c = new Creator(configFile);
-            c.create();
-//        }
+            c = new Creator(configFile);
+        } else {
+            System.out.println("Using default config");
+            c = new Creator();
+        }
+        c.create();
     }
 }
