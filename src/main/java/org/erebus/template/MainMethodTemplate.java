@@ -3,8 +3,6 @@ package org.erebus.template;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.erebus.config.MethodConfig;
-
 public class MainMethodTemplate implements MethodTemplate {
     private final String fullClassName;
 
