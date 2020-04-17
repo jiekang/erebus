@@ -44,17 +44,12 @@ public class Creator {
     public Creator() {
         config = ConfigFactory.createDefaultConfig();
     }
+
     public Creator(final File configFile) {
         config = ConfigFactory.createConfig(configFile.toPath());
     }
 
     public void create() {
-        createMainClass();
-        outputClassFiles();
-        outputBuildFiles();
-    }
-
-    private void createMainClass() {
         numClasses++;
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
@@ -82,6 +77,41 @@ public class Creator {
         }
 
         classList.add(mainClass);
+
+        for (ClassTemplate classTemplate : classList) {
+            try {
+                classTemplate.createClassFile(config.getOutputDir());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        File build = new File(config.getOutputDir(), "build.sh");
+        try {
+            build.createNewFile();
+
+            String buildString = "#!/bin/bash" + System.lineSeparator() + "find . -name *.java | xargs javac";
+
+            System.out.println("Writing file: " + build.getAbsolutePath());
+            Files.write(build.toPath(), buildString.getBytes());
+            build.setExecutable(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File run = new File(config.getOutputDir(), "run.sh");
+        try {
+            run.createNewFile();
+
+            String runString = "#!/bin/bash" + System.lineSeparator() + "java " + config.getBasePackage()
+                    + ".main.Main";
+
+            System.out.println("Writing file: " + run.getAbsolutePath());
+            Files.write(run.toPath(), runString.getBytes());
+            run.setExecutable(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ClassTemplate createClass() {
@@ -100,7 +130,8 @@ public class Creator {
         Probability isStatic = new Probability(50);
 
         for (int i = 0; i < numMethods; i++) {
-            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i, isStatic.getChance(), config.getMethodConfig());
+            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i,
+                    isStatic.getChance(), config.getMethodConfig());
             classTemplate.addMethod(method);
 
             int numCalls = getNumCalls();
@@ -132,49 +163,4 @@ public class Creator {
         Range r = new Range(0, classList.size() - 1);
         return classList.get(r.getNumber());
     }
-
-    private void outputClassFiles() {
-        for (ClassTemplate classTemplate : classList) {
-            try {
-                classTemplate.createClassFile(config.getOutputDir());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    private void outputBuildFiles() {
-        File build = new File(config.getOutputDir(), "build.sh");
-        try {
-            build.createNewFile();
-
-            String buildString =
-                    "#!/bin/bash" + System.lineSeparator() +
-                    "find . -name *.java | xargs javac";
-
-            System.out.println("Writing file: " + build.getAbsolutePath());
-            Files.write(build.toPath(), buildString.getBytes());
-            build.setExecutable(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        File run = new File(config.getOutputDir(), "run.sh");
-        try {
-            run.createNewFile();
-
-            String runString =
-                    "#!/bin/bash" + System.lineSeparator() +
-                    "java " + config.getBasePackage() + ".main.Main";
-
-            System.out.println("Writing file: " + run.getAbsolutePath());
-            Files.write(run.toPath(), runString.getBytes());
-            run.setExecutable(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }
