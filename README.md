@@ -31,3 +31,10 @@ $ cd output
 $ ./build.sh
 $ ./run.sh
 ```
+
+## Contribution Guidelines
+
+* PRs are accepted
+* Commits should start with a capitalized verb
+* Indentation is 4 spaces
+* The license header should be included in all source files
