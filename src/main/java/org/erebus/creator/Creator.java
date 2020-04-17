@@ -94,8 +94,6 @@ public class Creator {
         }
         classTemplate.addImport("java.util.concurrent.atomic.AtomicBoolean");
 
-
-
         classList.add(classTemplate);
 
         int numMethods = getNumMethods();

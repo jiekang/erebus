@@ -8,7 +8,7 @@ erebus generates java code that can be run as a jvm process. This is intended fo
 ## Requirements
 
 Maven
-Java 8
+Java 8+
 
 ## How to use erebus
 
