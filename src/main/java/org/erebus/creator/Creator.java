@@ -50,7 +50,10 @@ public class Creator {
     }
 
     public void create() {
-        // TODO: Split into readable functions
+        createMainClass();
+    }
+
+    private void createMainClass() {
         numClasses++;
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
@@ -79,6 +82,10 @@ public class Creator {
 
         classList.add(mainClass);
 
+        outputClassFiles();
+    }
+
+    private void outputClassFiles() {
         for (ClassTemplate classTemplate : classList) {
             try {
                 classTemplate.createClassFile(config.getOutputDir());
@@ -87,6 +94,11 @@ public class Creator {
             }
         }
 
+
+        outputBuildFiles();
+    }
+
+    private void outputBuildFiles() {
         File build = new File(config.getOutputDir(), "build.sh");
         try {
             build.createNewFile();
@@ -113,6 +125,7 @@ public class Creator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private ClassTemplate createClass() {
