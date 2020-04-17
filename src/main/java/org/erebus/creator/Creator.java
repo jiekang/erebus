@@ -51,6 +51,8 @@ public class Creator {
 
     public void create() {
         createMainClass();
+        outputClassFiles();
+        outputBuildFiles();
     }
 
     private void createMainClass() {
@@ -81,8 +83,6 @@ public class Creator {
         }
 
         classList.add(mainClass);
-
-        outputClassFiles();
     }
 
     private void outputClassFiles() {
@@ -93,9 +93,6 @@ public class Creator {
                 e.printStackTrace();
             }
         }
-
-
-        outputBuildFiles();
     }
 
     private void outputBuildFiles() {
