@@ -54,8 +54,8 @@ public class Config {
 
         basePackage = ConfigProperties.StringProperties.BASE_PACKAGE.value;
 
+        // TODO: side effect in the constructor
         outputDir = new File(ConfigProperties.StringProperties.OUTPUT_DIRECTORY.value);
-        outputDir.mkdirs();
 
         methodConfig = new MethodConfig();
     }

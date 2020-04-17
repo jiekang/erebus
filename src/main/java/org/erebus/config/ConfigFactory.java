@@ -36,6 +36,8 @@ public class ConfigFactory {
     public static Config createConfig(Path configFile) {
         Map<String, String> propertyMap = new HashMap<>();
 
+
+        // TODO: split this into readable functions
         try {
             String file = new String(Files.readAllBytes(configFile));
             for (String line : file.split(System.lineSeparator())) {
@@ -80,6 +82,7 @@ public class ConfigFactory {
             System.out.println(System.lineSeparator() + "Using default config.");
         }
 
+        // TODO: Unclear how 'new Config() is affected by configuration when default config does the same thing'
         return new Config();
     }
 }

@@ -50,6 +50,7 @@ public class Creator {
     }
 
     public void create() {
+        // TODO: Split into readable functions
         numClasses++;
 
         ClassTemplate mainClass = new ClassTemplate(config.getBasePackage() + ".main", "Main");
@@ -151,14 +152,18 @@ public class Creator {
         return classTemplate;
     }
 
+    // TODO: Maybe this indirection is not needed
+    // TODO: Method name is unclear: returns a random number from method range
     private int getNumMethods() {
         return config.getMethodRange().getNumber();
     }
 
+    // TODO: Rename, returns a random number from call range
     private int getNumCalls() {
         return config.getMethodConfig().getCallRange().getNumber();
     }
 
+    // TODO: Rename, returns a random class template from the list
     private ClassTemplate getClassTemplate() {
         Range r = new Range(0, classList.size() - 1);
         return classList.get(r.getNumber());
