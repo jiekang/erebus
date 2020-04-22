@@ -38,6 +38,9 @@ public class ConfigFactory {
 
         try {
             String file = new String(Files.readAllBytes(configFile));
+
+            // TODO: split into subfunctions to reduce code repetition
+
             for (String line : file.split(System.lineSeparator())) {
                 String[] property = line.split("=");
                 propertyMap.put(property[0], property[1]);
