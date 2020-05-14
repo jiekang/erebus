@@ -30,21 +30,21 @@ public class Start {
     private static final String c = "./erebus.conf";
 
     public static void main(String[] args) {
-        String configLocation = c;
+        String CL = c;
         if (args.length > 0) {
-            configLocation = args[0];
+            CL = args[0];
         }
 
-        final File configFile = new File(configLocation);
-        Creator c;
+        final File CF = new File(CL);
+        Creator cr;
 
-        if (configFile.exists() && configFile.canRead()) {
-            System.out.println("Creating java files using config: " + configLocation);
-            c = new Creator(configFile);
+        if (CF.exists() && CF.canRead()) {
+            System.out.println("Creating java files using config: " + CL);
+            cr = new Creator(CF);
         } else {
             System.out.println("Using default config");
-            c = new Creator();
+            cr = new Creator();
         }
-        c.create();
+        cr.create();
     }
 }

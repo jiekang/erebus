@@ -17,7 +17,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
- package org.erebus.config;
+package org.erebus.config;
 
 import org.erebus.probability.Probability;
 import org.erebus.range.Range;

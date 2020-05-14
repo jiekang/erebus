@@ -39,6 +39,7 @@ public class Creator {
 
     private final List<ClassTemplate> classList = new ArrayList<>();
 
+    // TODO
     private int numClasses = 0;
 
     public Creator() {
@@ -115,42 +116,43 @@ public class Creator {
         }
     }
 
-    private ClassTemplate createClass() {
-        numClasses++;
-        ClassTemplate classTemplate = new ClassTemplate(config.getBasePackage() + ".random", "Random" + numClasses);
-        if (config.getMethodConfig().isFileOperationsEnabled()) {
-            classTemplate.addImport("java.io.File");
-            classTemplate.addImport("java.io.IOException");
-            classTemplate.addImport("java.nio.file.Files");
-        }
-        classTemplate.addImport("java.util.concurrent.atomic.AtomicBoolean");
+    //TODO
+private ClassTemplate createClass() {
+	numClasses++;
+	ClassTemplate classTemplate = new ClassTemplate(config.getBasePackage() + ".random", "Random" + numClasses);
+	if (config.getMethodConfig().isFileOperationsEnabled()) {
+		classTemplate.addImport("java.io.File");
+		classTemplate.addImport("java.io.IOException");
+		classTemplate.addImport("java.nio.file.Files");
+	}
+	classTemplate.addImport("java.util.concurrent.atomic.AtomicBoolean");
 
-        classList.add(classTemplate);
+	classList.add(classTemplate);
 
-        int numMethods = getNumMethods();
-        Probability isStatic = new Probability(50);
+	int numMethods = getNumMethods();
+	Probability isStatic = new Probability(50);
 
-        for (int i = 0; i < numMethods; i++) {
-            DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i,
-                    isStatic.getChance(), config.getMethodConfig());
-            classTemplate.addMethod(method);
+	for (int i = 0; i < numMethods; i++) {
+		DefaultMethodTemplate method = new DefaultMethodTemplate(classTemplate.getFullClassName(), "method" + i,
+				isStatic.getChance(), config.getMethodConfig());
+		classTemplate.addMethod(method);
 
-            int numCalls = getNumCalls();
-            for (int j = 0; j < numCalls; j++) {
-                ClassTemplate c;
-                if (numClasses < config.getNumClasses()) {
-                    c = createClass();
-                } else {
-                    c = getClassTemplate();
-                }
-                for (MethodTemplate m : c.getMethods()) {
-                    method.addCall(m);
-                }
-            }
-        }
+		int numCalls = getNumCalls();
+		for (int j = 0; j < numCalls; j++) {
+			ClassTemplate c;
+			if (numClasses < config.getNumClasses()) {
+				c = createClass();
+			} else {
+				c = getClassTemplate();
+			}
+			for (MethodTemplate m : c.getMethods()) {
+				method.addCall(m);
+			}
+		}
+	}
 
-        return classTemplate;
-    }
+	return classTemplate;
+}
 
     // TODO
     private int getNumMethods() {
