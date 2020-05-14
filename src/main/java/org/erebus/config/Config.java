@@ -48,16 +48,14 @@ public class Config {
 
     private final MethodConfig methodConfig;
 
-    // TODO: Set values explicitly from config map in the ConfigFactory
     protected Config() {
         numClasses = ConfigProperties.NumberProperties.NUMBER_OF_CLASSES.value;
         methodRange = ConfigProperties.RangeProperties.NUM_METHOD_RANGE.value;
 
         basePackage = ConfigProperties.StringProperties.BASE_PACKAGE.value;
 
-        // Side effect
-        // TODO: move side effect to an explicit location when building configs (ConfigFactory)
         outputDir = new File(ConfigProperties.StringProperties.OUTPUT_DIRECTORY.value);
+        // TODO
         outputDir.mkdirs();
 
         methodConfig = new MethodConfig();

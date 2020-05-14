@@ -49,6 +49,7 @@ public class Creator {
         config = ConfigFactory.createConfig(configFile.toPath());
     }
 
+    // TODO
     public void create() {
         numClasses++;
 
@@ -151,14 +152,17 @@ public class Creator {
         return classTemplate;
     }
 
+    // TODO
     private int getNumMethods() {
         return config.getMethodRange().getNumber();
     }
 
+    // TODO
     private int getNumCalls() {
         return config.getMethodConfig().getCallRange().getNumber();
     }
 
+    // TODO
     private ClassTemplate getClassTemplate() {
         Range r = new Range(0, classList.size() - 1);
         return classList.get(r.getNumber());

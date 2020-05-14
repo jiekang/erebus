@@ -33,6 +33,7 @@ public class Range {
     /**
      * @return a number within {@link #min} and {@link #max} inclusive
      */
+    // TODO
     public int getNumber() {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;

@@ -33,13 +33,12 @@ public class ConfigFactory {
         return new Config();
     }
 
+    // TODO
     public static Config createConfig(Path configFile) {
         Map<String, String> propertyMap = new HashMap<>();
 
         try {
             String file = new String(Files.readAllBytes(configFile));
-
-            // TODO: split into subfunctions to reduce code repetition
 
             for (String line : file.split(System.lineSeparator())) {
                 String[] property = line.split("=");

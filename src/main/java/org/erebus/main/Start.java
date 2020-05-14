@@ -26,11 +26,11 @@ import org.erebus.creator.Creator;
 
 public class Start {
 
-    // TODO: config location refers to a file, not a location (rename?)
-    private static final String DEFAULT_CONFIG_LOCATION = "./erebus.conf";
+    // TODO
+    private static final String c = "./erebus.conf";
 
     public static void main(String[] args) {
-        String configLocation = DEFAULT_CONFIG_LOCATION;
+        String configLocation = c;
         if (args.length > 0) {
             configLocation = args[0];
         }
