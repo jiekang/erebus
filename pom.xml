@@ -68,7 +68,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
